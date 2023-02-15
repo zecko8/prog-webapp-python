@@ -1,17 +1,17 @@
 pipeline {
-		  agent {
-		    docker { image 'python-flask' }
-		  }
-		  stages {
-		    stage('Test') {
-		      steps {
-	         	sh 'wget https://raw.githubusercontent.com/zecko8/prog-webapp-python/main/webapp-1.py'
-		        sh '''
+  agent {
+    docker { image 'python-flask' }
+  }
+  stages {
+    stage('Test') {
+      steps {
+	sh 'wget https://raw.githubusercontent.com/zecko8/prog-webapp-python/main/app.py'
+	sh '''
               export FLASK_APP=app
               export FLASK_ENV=development
               '''
             sh 'flask run'
           }
-		    }
-		  }
-		}
+    }
+  }
+}
