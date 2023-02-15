@@ -24,10 +24,10 @@
                     }
                 }
             }
-            stage ('Deploy') {
-                steps {
-                    sh 'echo ok'
-                }
+        }
+        stage ('Deploy') {
+            steps {
+                sh 'echo ok'
             }
         }
     }
