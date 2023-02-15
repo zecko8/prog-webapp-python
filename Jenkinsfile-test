@@ -1,18 +1,34 @@
-pipeline {
-  agent {
-    docker { image 'python-flask:v2' }
-  }
-  stages {
-    stage('Test') {
-      steps {
-	sh 'wget https://raw.githubusercontent.com/zecko8/prog-webapp-python/main/webapp-1.py'
-	sh 'mv webapp-1.py app.py'
-	sh '''
-              export FLASK_APP=app
-              export FLASK_ENV=development
-              '''
-            sh 'flask run'
-          }
+ pipeline {
+    agent none
+    stages {
+        stage('Run Tests') {
+            parallel {
+                stage('RUN FLASK') {
+                      agent {
+                        docker { image 'python-flask:v2' }
+                      }
+                    steps {
+                        sh 'wget https://raw.githubusercontent.com/zecko8/prog-webapp-python/main/webapp-1.py'
+                        sh 'mv webapp-1.py app.py'
+                        sh '''
+                          export FLASK_APP=app
+                          export FLASK_ENV=development
+                          '''
+                        sh 'flask run'
+                    }
+                }
+                stage('INPUT') {
+                    agent any
+                    steps {
+                        input "Funziona?"
+                    }
+                }
+            }
+            stage ('Deploy') {
+                steps {
+                    sh 'echo ok'
+                }
+            }
+        }
     }
-  }
 }
